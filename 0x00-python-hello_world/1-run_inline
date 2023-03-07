@@ -1,2 +1,7 @@
 #!/bin/bash
-echo $PYCODE | /usr/bin/python
+
+# Get the Python code from the environment variable
+python_code="$PYCODE"
+
+# Run the Python code
+python -c "$python_code"
