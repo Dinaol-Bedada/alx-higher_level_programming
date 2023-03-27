@@ -27,31 +27,24 @@ void print_python_list(PyObject *p)
  */
 void print_python_bytes(PyObject *p)
 {
-    PyBytesObject *bytes = (PyBytesObject *)p;
-    Py_ssize_t size = PyBytes_Size(p);
-    char *str = PyBytes_AsString(p);
-    Py_ssize_t i;
+    PyBytesObject *bytes;
 
-    printf("[*] Python bytes info\n");
+    printf("[.] bytes object info\n");
     if (!PyBytes_Check(p))
     {
         printf("  [ERROR] Invalid Bytes Object\n");
         return;
     }
-    printf("  size: %li\n", size);
-    printf("  trying string: %s\n", str);
 
-    if (size > 10)
-        size = 10;
-    printf("  first %li bytes: ", size);
-    for (i = 0; i < size; i++)
-    {
-        printf("%02x", (unsigned char)str[i]);
-        if (i < size - 1)
-            printf(" ");
-    }
+    bytes = (PyBytesObject *) p;
+    printf("  size: %ld\n", PyBytes_Size(p));
+    printf("  trying string: %s\n", PyBytes_AsString(p));
+    printf("  first %ld bytes:", PyBytes_Size(p) + 1 > 10 ? 10 : PyBytes_Size(p) + 1);
+    for (Py_ssize_t i = 0; i < PyBytes_Size(p) + 1 && i < 10; i++)
+        printf(" %02x", (unsigned char) bytes->ob_sval[i]);
     printf("\n");
 }
+
 
 /**
  * print_python_float - prints some basic info about Python float objects
